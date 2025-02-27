@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Authentication</title>
+    <style>
+        /* General Page Styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: url('background.jpg') no-repeat center center/cover;
+            position: relative;
+        }
+
+        /* Blue Overlay Effect */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 123, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Form Container */
+        .container {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #007BFF;
+        }
+
+        /* Input Fields */
+        .input-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .input-group input.shake {
+            animation: shake 0.3s ease-in-out;
+            border-color: red;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        /* Error Messages */
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Links */
+        .link {
+            display: block;
+            margin-top: 10px;
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Hide forms initially */
+        .form-container {
+            display: none;
+        }
+
+        /* Show active form */
+        .active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Login Form -->
+    <div id="loginForm" class="form-container active">
+        <h2>Login</h2>
+        <form onsubmit="validateLogin(event)">
+            <div class="input-group">
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" placeholder="Enter your email">
+                <p class="error" id="loginEmailError"></p>
+            </div>
+            <div class="input-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password">
+                <p class="error" id="loginPasswordError"></p>
+            </div>
+            <button type="submit" class="btn">Login</button>
+            <span class="link" onclick="showForm('forgotPasswordForm')">Forgot Password?</span>
+            <span class="link" onclick="showForm('signupForm')">Not a member? Signup</span>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signupForm" class="form-container">
+        <h2>Signup</h2>
+        <form>
+            <div class="input-group">
+                <label for="signupName">Full Name</label>
+                <input type="text" id="signupName" placeholder="Enter your full name">
+            </div>
+            <div class="input-group">
+                <label for="signupEmail">Email Address</label>
+                <input type="email" id="signupEmail" placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Create a password">
+            </div>
+            <button type="submit" class="btn">Signup</button>
+            <span class="link" onclick="showForm('loginForm')">Already have an account? Login</span>
+        </form>
+    </div>
+
+    <!-- Forgot Password Form -->
+    <div id="forgotPasswordForm" class="form-container">
+        <h2>Reset Password</h2>
+        <form>
+            <div class="input-group">
+                <label for="resetEmail">Email Address</label>
+                <input type="email" id="resetEmail" placeholder="Enter your email">
+            </div>
+            <button type="submit" class="btn">Reset Password</button>
+            <span class="link" onclick="showForm('loginForm')">Back to Login</span>
+        </form>
+    </div>
+</div>
+
+<script>
+    function showForm(formId) {
+        document.querySelectorAll('.form-container').forEach(form => {
+            form.classList.remove('active');
+        });
+        document.getElementById(formId).classList.add('active');
+    }
+
+    function validateLogin(event) {
+        event.preventDefault();
+
+        let email = document.getElementById("loginEmail").value.trim();
+        let password = document.getElementById("loginPassword").value.trim();
+        let emailError = document.getElementById("loginEmailError");
+        let passwordError = document.getElementById("loginPasswordError");
+
+        emailError.innerText = "";
+        passwordError.innerText = "";
+
+        document.getElementById("loginEmail").classList.remove("shake");
+        document.getElementById("loginPassword").classList.remove("shake");
+
+        if (email === "") {
+            emailError.innerText = "Email can't be empty";
+            document.getElementById("loginEmail").classList.add("shake");
+        } else if (!localStorage.getItem(email)) {
+            emailError.innerText = "User not found. Please sign up.";
+            document.getElementById("loginEmail").classList.add("shake");
+        }
+
+        if (password === "") {
+            passwordError.innerText = "Password can't be empty";
+            document.getElementById("loginPassword").classList.add("shake");
+        }
+    }
+</script>
+
+</body>
+</html>

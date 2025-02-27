@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBot - Mental Health Support</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #e0f7fa;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .chatbot-container {
+            width: 80%;
+            max-width: 800px;
+            height: 90vh;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        .chatbox {
+            flex-grow: 1;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            background: #f1f8e9;
+        }
+        .input-container {
+            display: flex;
+            margin-top: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .send-btn {
+            background: #00897b;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+        h2 {
+            color: #00897b;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <h2>HealthBot - Mental Health Support</h2>
+        <p>Ask me anything related to mental health, self-care, and well-being.</p>
+        <div class="chatbox" id="chatbox"></div>
+        <div class="input-container">
+            <input type="text" id="userInput" class="chat-input" placeholder="Ask about mental health..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        const API_KEY = 'AIzaSyDpTo2-in4kLM2Y1mQUrtbYNjYvyRSOdsY';
+        const API_PATH = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=';
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+            const chatbox = document.getElementById("chatbox");
+
+            if (userInput.trim() === "") return;
+
+            chatbox.innerHTML += `<div style="text-align: right; margin: 5px;">
+                                    <span style="display: inline-block; background: #00897b; color: white; padding: 10px; border-radius: 10px; max-width: 70%;">${userInput}</span>
+                                  </div>`;
+            document.getElementById("userInput").value = "";
+
+            const mentalHealthKeywords = [
+                "mental well-being", "emotional health", "stress", "anxiety", "stress management", "relaxation techniques", "depression", "mood disorders", "coping strategies", "self-care", 
+                "therapy", "counseling", "types of therapy", "benefits of counseling", "mindfulness", "meditation", "techniques for mental clarity", "healthy habits", "self-improvement", 
+                "psychology", "mental disorders", "ADHD", "PTSD", "OCD", "bipolar disorder", "sleep", "mental health", "importance of sleep", "sleep hygiene", "substance use", "addiction", 
+                "work", "study-related mental health", "burnout", "exam stress"
+            ];
+            
+            const isMentalHealthQuery = mentalHealthKeywords.some(keyword => userInput.toLowerCase().includes(keyword));
+
+            if (!isMentalHealthQuery) {
+                chatbox.innerHTML += `<div style="text-align: left; margin: 5px;">
+                                        <span style="display: inline-block; background: #e0f7fa; color: black; padding: 10px; border-radius: 10px; max-width: 70%;">Sorry, I can only provide support for mental health-related topics.</span>
+                                      </div>`;
+                chatbox.scrollTop = chatbox.scrollHeight;
+                return;
+            }
+
+            chatbox.innerHTML += `<div id="bot-thinking" style="text-align: left; margin: 5px;">
+                                    <span style="display: inline-block; background: #e0f7fa; color: black; padding: 10px; border-radius: 10px; max-width: 70%;">Typing...</span>
+                                  </div>`;
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            setTimeout(async () => {
+                document.getElementById("bot-thinking").remove();
+
+                try {
+                    const response = await fetch(API_PATH + API_KEY, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: `Mental health query: ${userInput}` }] }]
+                        }),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const botMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm here to support you, but I couldn't process your request.";
+
+                    chatbox.innerHTML += `<div style="text-align: left; margin: 5px;">
+                                            <span style="display: inline-block; background: #e0f7fa; color: black; padding: 10px; border-radius: 10px; max-width: 70%;">${botMessage}</span>
+                                          </div>`;
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                } catch (error) {
+                    console.error("Error fetching data from Gemini API:", error);
+                    chatbox.innerHTML += `<div style="text-align: left; margin: 5px;">
+                                            <span style="display: inline-block; background: #e0f7fa; color: black; padding: 10px; border-radius: 10px; max-width: 70%;">Sorry, an error occurred. Please try again later.</span>
+                                          </div>`;
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

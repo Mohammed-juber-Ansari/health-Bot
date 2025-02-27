@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Pawan Gym - Mental Health Professionals</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=OCR+A+Std&display=swap');
+
+        body {
+            background: url('https://static.vecteezy.com/system/resources/thumbnails/007/125/804/small/beautiful-light-blue-pastel-background-minimal-scene-blue-empty-room-stand-show-cosmetic-product-stage-showcase-pastel-color-sky-blue-background-vector.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .ocr-text {
+            font-family: "OCR A Std", monospace;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            color: #000;
+        }
+
+        .card {
+            background: url('https://geeglenews.com/ct-geeglenews/uploads/2017/04/light-blue-background-57742.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 250px;  /* Width unchanged */
+            height: 450px; /* Reduced height */
+            margin: auto;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-img {
+            width: 140px;  /* Increased size for better visibility */
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 5px solid #ddd;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.1);
+        }
+
+        .details {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .card:hover .details {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .button-3d {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(145deg, #007bff, #0056b3);
+            border: none;
+            border-radius: 5px;
+            box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .button-3d:active {
+            transform: translateY(3px);
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-24 mx-auto">
+            <div class="flex flex-col text-center">
+                <h1 class="ocr-text mb-6">Mental Health Professionals</h1>
+                <p class="text-base leading-relaxed">Get expert medical advice from experienced doctors. Book an appointment now for personalized support.</p>
+            </div>
+
+            <div class="card-container">
+                <!-- Card 1 -->
+                <div class="card">
+                    <img class="profile-img" src="https://thumbs.dreamstime.com/z/smiling-male-doctor-portrait-handsome-arms-crossed-stethoscope-his-neck-standing-close-against-white-window-blinds-87116727.jpg" alt="Dr. Ravi Kumar">
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Dr. Ravi Kumar, M.D</h2>
+                    <div class="details">
+                        <p class="text-gray-700">Specialties: Depression, Anxiety, Mood Disorders, OCD</p>
+                        <p class="text-gray-600 text-sm">Healing Minds Clinic, New Delhi</p>
+                        <p class="text-gray-600 text-sm">₹1,500 per session</p>
+                        <p class="text-gray-600 text-sm">Mon-Fri: 10:00 AM – 6:00 PM</p>
+                        <button class="button-3d">Message</button>
+                        <button class="button-3d">Contact</button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card">
+                    <img class="profile-img" src="https://img.freepik.com/premium-photo/indian-doctor-wearing-white-coat-with-stethoscope_85574-3676.jpg?w=2000" alt="Dr. Priya Verma">
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Dr. Priya Verma, Ph.D</h2>
+                    <div class="details">
+                        <p class="text-gray-700">Specialties: CBT, Stress Management, Family Therapy</p>
+                        <p class="text-gray-600 text-sm">Mind Care Clinic, Mumbai</p>
+                        <p class="text-gray-600 text-sm">₹1,200 per session</p>
+                        <p class="text-gray-600 text-sm">Tue, Thu, Sat: 9:00 AM – 4:00 PM</p>
+                        <button class="button-3d">Message</button>
+                        <button class="button-3d">Contact</button>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="card">
+                    <img class="profile-img" src="https://thumbs.dreamstime.com/b/vertical-portrait-male-happy-indian-doctor-standing-clinic-hospital-smiling-happy-male-indian-latin-doctor-medical-worker-228700065.jpg" alt="Dr. Amit Sharma">
+                    <h2 class="text-xl font-semibold text-gray-900 mt-4">Dr. Amit Sharma, M.D</h2>
+                    <div class="details">
+                        <p class="text-gray-700">Specialties: Addiction Recovery, Bipolar Disorder, Anger Management</p>
+                        <p class="text-gray-600 text-sm">Serenity Psychiatry Center, Bengaluru</p>
+                        <p class="text-gray-600 text-sm">₹1,000 per session</p>
+                        <p class="text-gray-600 text-sm">Mon, Wed, Fri: 11:00 AM – 5:00 PM</p>
+                        <button class="button-3d">Message</button>
+                        <button class="button-3d">Contact</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
